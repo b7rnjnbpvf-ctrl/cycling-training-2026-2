@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="骑行训练">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#2563eb">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <title>个人骑行训练记录与分析</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div>
+      <p class="eyebrow">Cycling Training 2026</p>
+      <h1>个人骑行训练记录与分析</h1>
+      <p class="subtitle">基于现有“进阶到 200W”课程续写至 2026 年底，支持训练记录、FTP 分析、完成度追踪与建议。</p>
+    </div>
+    <div class="header-card">
+      <label>当前训练 FTP（W）<input id="ftpInput" type="number" inputmode="numeric" min="80" max="400" value="180"></label>
+      <label>体重（kg）<input id="weightInput" type="number" inputmode="decimal" min="30" max="120" step="0.1" value="62"></label>
+      <button id="saveSettings">保存设置</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="dashboard">
+      <div class="metric"><span>全年课程</span><strong id="totalSessions">-</strong><small>含休息、健身、骑行</small></div>
+      <div class="metric"><span>已记录</span><strong id="loggedSessions">-</strong><small>本机浏览器保存</small></div>
+      <div class="metric"><span>最近完成度</span><strong id="avgCompletion">-</strong><small>最近 7 条骑行记录</small></div>
+      <div class="metric"><span>建议</span><strong id="adviceBadge">-</strong><small id="adviceText">等待记录</small></div>
+    </section>
+
+    <section class="card controls">
+      <div class="control-grid">
+        <label>阶段筛选
+          <select id="phaseFilter"><option value="all">全部阶段</option></select>
+        </label>
+        <label>周次
+          <select id="weekFilter"><option value="all">全部周次</option></select>
+        </label>
+        <label>类型
+          <select id="typeFilter"><option value="all">全部类型</option></select>
+        </label>
+        <label>搜索
+          <input id="searchInput" placeholder="如 阈值、Z2、VO2、恢复">
+        </label>
+      </div>
+      <div class="actions">
+        <button id="todayBtn">定位最近课程</button>
+        <button id="exportJsonBtn">导出 JSON 备份</button>
+        <button id="exportCsvBtn">导出 CSV</button>
+        <label class="file-label">导入 JSON<input id="importJsonInput" type="file" accept="application/json"></label>
+        <button id="clearDataBtn" class="danger">清空记录</button>
+      </div>
+    </section>
+
+    <section class="layout">
+      <div class="card plan-card">
+        <div class="section-title">
+          <h2>2026 全年课程</h2>
+          <p>点击任意课程可查看详情并记录训练数据。</p>
+        </div>
+        <div class="table-wrap">
+          <table id="planTable">
+            <thead><tr><th>日期</th><th>周次</th><th>星期</th><th>阶段</th><th>类型</th><th>主课</th><th>时长</th><th>记录</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <aside class="card detail-card">
+        <div class="section-title">
+          <h2 id="detailTitle">课程详情</h2>
+          <p id="detailSub">选择一节课程开始记录。</p>
+        </div>
+        <div id="sessionDetail" class="session-detail muted-box">暂无选择</div>
+        <form id="logForm" class="log-form hidden">
+          <div class="form-grid">
+            <label>实际 AP（W）<input name="ap" type="number" inputmode="numeric" min="0"></label>
+            <label>实际 NP（W）<input name="np" type="number" inputmode="numeric" min="0"></label>
+            <label>平均心率<input name="hr" type="number" inputmode="numeric" min="0"></label>
+            <label>时长（分钟）<input name="minutes" type="number" inputmode="decimal" min="0" step="0.1"></label>
+            <label>RPE 体感<input name="rpe" type="number" inputmode="decimal" min="1" max="10" step="0.5"></label>
+            <label>完成度 %<input name="completion" type="number" inputmode="numeric" min="0" max="130"></label>
+          </div>
+          <label>备注<textarea name="note" rows="3" placeholder="比如：心率走势、腿感、睡眠、天气、补给"></textarea></label>
+          <div class="analysis" id="logAnalysis">填写 NP/AP/RPE 后自动分析。</div>
+          <button type="submit">保存这节记录</button>
+        </form>
+      </aside>
+    </section>
+
+    <section class="card records-card">
+      <div class="section-title">
+        <h2>训练记录与趋势</h2>
+        <p>数据保存在当前浏览器 localStorage；换手机前请导出 JSON。</p>
+      </div>
+      <div id="recordsList" class="records-list"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>说明：本网站用于训练记录与趋势参考，不替代医学建议；如出现伤痛、异常疲劳或心率异常，请优先休息或咨询专业人士。</p>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
+    }
+  </script>
+</body>
+</html>
