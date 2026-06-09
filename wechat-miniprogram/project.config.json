@@ -1,0 +1,18 @@
+{
+  "description": "骑行云端资料馆小程序模板",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true
+  },
+  "compileType": "miniprogram",
+  "libVersion": "latest",
+  "appid": "touristappid",
+  "projectname": "cycling-cloud-hub",
+  "condition": {}
+}
