@@ -1,0 +1,51 @@
+<view class="page">
+  <view class="hero">
+    <view class="kicker">⚡ 我的骑行照片 · 路书 · 知识库</view>
+    <view class="hero-title">把每一次出发，整理成一座云端骑行馆。</view>
+    <view class="hero-desc">资料全部放在百度网盘，小程序负责展示、分类、导航和沉淀。</view>
+    <view class="hero-actions">
+      <button class="primary" bindtap="scrollToPhotos">查看模板</button>
+      <button class="ghost" bindtap="showEditTip">替换链接</button>
+    </view>
+    <view class="stats">
+      <view class="stat"><text class="stat-main">Photo</text><text>骑行影像</text></view>
+      <view class="stat"><text class="stat-main">Route</text><text>路书导航</text></view>
+      <view class="stat"><text class="stat-main">Knowledge</text><text>知识分享</text></view>
+    </view>
+  </view>
+
+  <view class="section" id="photos">
+    <view class="section-head">
+      <text class="section-title">精选模块</text>
+      <text class="section-sub">手机端卡片排版</text>
+    </view>
+    <block wx:for="{{cards}}" wx:key="title">
+      <view class="card">
+        <view class="cover {{item.type}}">
+          <text class="tag">{{item.tag}}</text>
+        </view>
+        <view class="card-body">
+          <view class="card-title">{{item.title}}</view>
+          <view class="card-desc">{{item.desc}}</view>
+          <view class="chips">
+            <text class="chip" wx:for="{{item.chips}}" wx:key="*this">{{item}}</text>
+          </view>
+          <button class="link-btn" data-url="{{item.url}}" bindtap="openLink">打开百度网盘链接 ›</button>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <text class="section-title">首页功能区</text>
+      <text class="section-sub">后续可扩展</text>
+    </view>
+    <view class="feature"><text class="icon">📷</text><view><view class="feature-title">照片分区</view><view class="feature-desc">按路线、月份、活动做成卡片入口。</view></view></view>
+    <view class="feature"><text class="icon">🗺️</text><view><view class="feature-title">路书中心</view><view class="feature-desc">路线链接、GPX、补给点、停车点集中展示。</view></view></view>
+    <view class="feature"><text class="icon">📚</text><view><view class="feature-title">知识分享</view><view class="feature-desc">沉淀训练、装备、维护和长距离攻略。</view></view></view>
+  </view>
+
+  <view class="edit-box">后续把 pages/index/index.js 里的 url 替换成你的百度网盘分享链接即可。建议百度网盘按文件夹整理：照片库 / 路书 / 骑行知识。</view>
+  <view class="safe-bottom"></view>
+</view>
